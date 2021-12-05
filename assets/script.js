@@ -2,6 +2,7 @@ console.log('js linked successfully')
 
 var currentAddress = document.querySelector("#userAddress")
 var searchButton = document.querySelector("#search-button")
+var breweryData = []
 
 
 
@@ -19,6 +20,7 @@ var getBreweries = function (breweryName) {
         if(response.ok) {
             response.json().then(function(data) {
                 console.log(data);
+                loadBreweryButtons(data);
                 // breweryName.innerText = 
             }
             )
@@ -41,6 +43,31 @@ var getMapQuest = function () {
     }
     )
 }
+
+function loadBreweryButtons(data) {
+    var btnDiv = document.getElementById("btnDiv");
+    // var listBreweries = JSON.parse(localStorage.getItem("brewery"));
+    for (let i = 0; i < data.length; i++) {
+        breweryData.push(data[i])
+        var button = document.createElement("button");
+        button.innerText = data[i].name
+        button.value = data[i].name
+        button.classList.add("btn");
+        button.classList.add("barbtn");
+        button.addEventListener("click",chosenBrewery);
+        btnDiv.appendChild(button)
+    }
+    console.log(breweryData)
+}
+
+function chosenBrewery(event) {
+    console.log(event.target.value)
+    var name = event.target.value
+    //         getMapQuest(name);
+    console.log(name)
+}
+
+
 getMapQuest();
 // create buttons for breweries
 // save breweries to local storage
