@@ -6,17 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/stylesheet.css">
+    <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+    crossorigin="anonymous"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <title>Brew Hops!</title>
     </head>
 <body>
-    <header class="hero bg-warning">
+    <header class="hero">
         <h1 class="app-title text-center  p-4">
+            <i class="fas fa-beer"></i>
             Brew Hops!
         </h1>
-        <div class="container p-3">
+        <div class="container p-3 input-container">
+            <h3 class="text-center">
+                Where are you?
+            </h3>
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="User Address" aria-label="User Address" aria-describedby="basic-addon2">
                 <div class="input-group-append">
@@ -29,9 +38,11 @@
     <div class= "row min-vh-100 no-gutters">
         <!-- Left side list and search  -->
         <main class="row min-vh-100 no-gutters">
-            <div class="bg-secondary col d-flex flex-column p-lg-3" id="btnDiv">
+            <div class="col d-flex flex-column p-lg-3" id="btnDiv">
                 <h3 class="text-center">
-                    Breweries in Salt Lake
+                    Where do you want to go?
+                    <!-- <br>
+                    Breweries in Salt Lake -->
                 </h3>
                 <li class="m-2">
                     <button class="btn btn-secondary p-1">
@@ -49,7 +60,7 @@
         </main>
 
         <!-- right side map area -->
-        <article class="map bg-primary col container d-flex align-items-center justify-content-center m-0">
+        <article class="map col container d-flex align-items-center justify-content-center m-0">
             <!-- card posistioning -->
             <div class="">
                 <div class="card" style="width: 18rem;">
@@ -64,7 +75,7 @@
 
         </article>
     </div>
-    <footer class="bg-warning">
+    <footer class="footer">
         <h2 class="app-title text-center  p-4">
             <ul>
                 <li>
