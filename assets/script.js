@@ -2,6 +2,7 @@ console.log('js linked successfully')
 
 var currentAddress = document.querySelector("#userAddress")
 var searchButton = document.querySelector("#search-button")
+var breweryData = []
 
 
 
@@ -19,6 +20,7 @@ var getBreweries = function (breweryName) {
         if(response.ok) {
             response.json().then(function(data) {
                 console.log(data);
+                loadBreweryButtons(data);
                 // breweryName.innerText = 
             }
             )
@@ -29,7 +31,7 @@ var getBreweries = function (breweryName) {
 getBreweries();
 
 var getMapQuest = function () {
-    var mapQuestApi = `http://cors-anywhere.herokuapp.com/http://open.mapquestapi.com/guidance/v2/route?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&from=1555+Blake+St.,+Denver,+CO+80202&to=1701+Wynkoop+St,+Denver,+CO+80202`
+    var mapQuestApi = `http://cors-anywhere.herokuapp.com/https://open.mapquestapi.com/guidance/v2/route?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&from=1555+Blake+St.,+Denver,+CO+80202&to=1701+Wynkoop+St,+Denver,+CO+80202`
     fetch(mapQuestApi)
     .then(function(response) {
         if(response.ok) {
