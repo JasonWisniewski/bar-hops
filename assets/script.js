@@ -41,6 +41,15 @@ var getMapQuest = function () {
     }
     )
 }
+
+L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
+L.mapquest.map('map', {
+  center: [40.7608, -111.8910],
+  layers: L.mapquest.tileLayer('map'),
+  zoom: 12
+});
+
+
 getMapQuest();
 // create buttons for breweries
 // save breweries to local storage
