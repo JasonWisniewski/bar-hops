@@ -84,7 +84,6 @@ var getBreweries = function (breweryName) {
 getBreweries();
 
 var toAddress = "40.6987539, -111.8503182";
-// going to need a for loop to add each extra to location at end of link
 var getMapQuest = function (startingPoint) {
   var mapQuestApi = `http://cors-anywhere.herokuapp.com/https://open.mapquestapi.com/guidance/v2/route?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&from=${startingPoint}&to=${toAddress}`;
   fetch(mapQuestApi).then(function (response) {
@@ -110,9 +109,6 @@ function loadBreweryButtons() {
     btnDiv.appendChild(button);
   }
 
-  // var L = breweryresultsLat[2].street.lat();
-  // console.log(L);
-  // for loop to check if address is null if so console.log it
   console.log(resultsLat);
   for (let i = 0; i < resultsLat.length; i++) {
     
@@ -145,12 +141,5 @@ L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
     zoom: 12
     });
 L.marker([40.7608, -111.8910]).addTo(breweryMap);
-// documentation with L infort accesses leaflet library
-var displayMap = function (startingPoint) {
-  console.log(startingPoint);
-  // need to convert starting point to longitude.
-//   L.marker([40.7608, -111.8910]).addTo(breweryMap);
-};
-displayMap();
 
 searchButton.onclick = formSubmitHandler;
