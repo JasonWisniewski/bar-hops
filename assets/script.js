@@ -31,7 +31,12 @@ var userAddressMarker = function (data){
     console.log(data);
     var startingLat = data.results[0].locations[0].latLng.lat;
     var startingLon = data.results[0].locations[0].latLng.lng;
-    L.marker([startingLat, startingLon]).addTo(breweryMap);
+    var userIcon = L.icon({
+        iconUrl: 'home.png',
+        iconSize: [50, 32],
+        iconAnchor: [22, 94],
+    });
+    L.marker([startingLat, startingLon],{icon: userIcon}).addTo(breweryMap);
 };
 
 var getBreweries = function (breweryName) {
