@@ -5,3 +5,52 @@ body {
 li {
   list-style: none;
 }
+
+.barbtn {
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  background-color: #00B2CA;
+  color: #1D4E89;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.hero {
+  background-color: #1D4E89;
+}
+
+h1 {
+  color: #F79256;
+  font-size: 75px;
+}
+
+.input-container {
+  background-color: #1D4E89;
+}
+
+#search-button {
+  background-color: #F79256;
+}
+
+#btnDiv {
+  background-color: #1D4E89;
+}
+
+h3 {
+  color: #F79256;
+  font-size: 42px;
+}
+
+.footer {
+  background-color: #7DCFB6;
+  color: #1D4E89;
+}
+
+.input-container {
+  background-color: #1D4E89;
+}
+
+.map {
+  background-color: #1D4E89;
+}
