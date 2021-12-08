@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href= "assets/images/beer_PNG2347.png"/>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
     <title>Brew Hops!</title>
     </head>
 <body>
@@ -28,7 +29,7 @@
                 Where are you?
             </h3>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="User Address" aria-label="User Address" aria-describedby="basic-addon2">
+                <input id="userAddress" type="text" class="form-control" placeholder="User Address" aria-label="User Address" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                   <button class="input-group-text" id="search-button">Search</button>
                 </div>
@@ -39,16 +40,14 @@
     <div class= "row min-vh-100 no-gutters">
         <!-- Left side list and search  -->
         <main class="row min-vh-100 no-gutters">
-            <div class="col d-flex flex-column p-lg-3" id="btnDiv">
+            <div class="col d-flex flex-column p-lg-3 overflow-auto min-vh-100" id="btnDiv">
                 <h3 class="text-center">
                     Where do you want to go?
                     <!-- <br>
                     Breweries in Salt Lake -->
                 </h3>
                 <li class="m-2">
-                    <button class="btn btn-secondary p-1">
-                        <!-- <ul>bar option1</ul> -->
-                    </button>
+               
                 </li>
                 <!-- same as above but more condensed -->
                 <!-- <li class="m-2"><button class="btn btn-secondary p-1"><ul>bar option1</ul></button></li>
@@ -63,17 +62,10 @@
         <!-- right side map area -->
         <article class="map col container d-flex align-items-center justify-content-center m-0">
             <!-- card posistioning -->
-            <div class="">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                      <h5 class="card-title">Map Goes Here</h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-primary">Might not need button</a>
-                    </div>
-                  </div>
-                
+            <div class="card" style="width: 90%; height:60%">
+                <div id="map" class="card-body ">
+                </div>
             </div>
-
         </article>
     </div>
     <footer class="footer">
@@ -94,7 +86,7 @@
             </ul>
         </h2>
     </footer>
-
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/script.js"></script>
 </body>
