@@ -115,9 +115,17 @@ function loadBreweryButtons() {
      console.log(resultsLat[i]);
       var lat = String(resultsLat[i].latitude);
       var long = String(resultsLat[i].longitude);
-      var marker = L.marker([lat, long]);
+      var marker = L.marker([lat, long]).bindPopup(resultsLat[i].name);
+    //functions for popup to disappear when user hovers in and out
+      marker.on('mouseover', function (e) {
+          this.openPopup();
+      });
+      marker.on('mouseout', function (e){
+          this.closePopup();
+      });
       console.log(marker);
       if (marker){
+          
           marker.addTo(breweryMap);
       }
   }
@@ -140,6 +148,5 @@ L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
     layers: L.mapquest.tileLayer('map'),
     zoom: 12
     });
-L.marker([40.7608, -111.8910]).addTo(breweryMap);
 
 searchButton.onclick = formSubmitHandler;
