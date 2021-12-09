@@ -17,21 +17,23 @@ var addressToLatLon = function (startingPoint, user) {
   console.log("startingpoint", startingPoint);
   var geoCodeApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${startingPoint}`;
   if (!user) {
-    for(let i = 0; i<resultsStreet.length; i++){
-        var geoStreetApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${resultsStreet[i].street} ${resultsStreet[i].city} ,${resultsStreet[i].state}`
-        fetch(geoStreetApi).then(function (response) {
+    for (let i = 0; i < resultsStreet.length; i++) {
+      var geoStreetApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${resultsStreet[i].street} ${resultsStreet[i].city} ,${resultsStreet[i].state}`;
+      fetch(geoStreetApi).then(function (response) {
         if (response.ok) {
-            response.json().then(function (data) {
-            resultsStreet[i].latitude = data.results[0].locations[0].latLng.lat;
-            resultsStreet[i].longitude = data.results[0].locations[0].latLng.lng;
-            });
+          response.json().then(function (data) {
+            resultsStreet[i].latitude =
+              data.results[0].locations[0].latLng.lat.toString();
+            resultsStreet[i].longitude =
+              data.results[0].locations[0].latLng.lng.toString();
+          });
         }
-    });
-}    
-resultsLat = resultsLat.concat(resultsStreet)
-console.log(resultsLat);
-loadBreweryButtons(resultsLat);
-
+      });
+    }
+    //resultsLat = resultsLat.concat(resultsStreet)
+    console.log(resultsLat.concat(resultsStreet));
+    loadBreweryButtons(resultsLat.concat(resultsStreet));
+    // not making it to else statment, maybe has something to do with funtion (startingPoint, user) above?  not logging user? since not defined anywhere else?
   } else {
     fetch(geoCodeApi).then(function (response) {
       if (response.ok) {
@@ -71,12 +73,10 @@ var getBreweries = function (breweryName) {
           return brewery.latitude;
         });
         resultsStreet = data.filter(function (brewery) {
-          return brewery.street && brewery.latitude=== null;
+          return brewery.street && brewery.latitude === null;
         });
         addressToLatLon();
         console.log(resultsStreet);
-        
-        // breweryName.innerText =
       });
     }
   });
@@ -95,39 +95,37 @@ var getMapQuest = function (startingPoint) {
   });
 };
 
-function loadBreweryButtons() {
+function loadBreweryButtons(data) {
+  console.log("data is", data);
   var btnDiv = document.getElementById("btnDiv");
   // var listBreweries = JSON.parse(localStorage.getItem("brewery"));
-  for (let i = 0; i < resultsLat.length; i++) {
-    
+  for (let i = 0; i < data.length; i++) {
     var button = document.createElement("button");
-    button.innerText = resultsLat[i].name;
-    button.value = resultsLat[i].name;
+    button.innerText = data[i].name;
+    button.value = data[i].name;
     button.classList.add("btn");
     button.classList.add("barbtn");
     button.addEventListener("click", chosenBrewery);
     btnDiv.appendChild(button);
   }
 
-  console.log(resultsLat);
-  for (let i = 0; i < resultsLat.length; i++) {
-    
-     console.log(resultsLat[i]);
-      var lat = String(resultsLat[i].latitude);
-      var long = String(resultsLat[i].longitude);
-      var marker = L.marker([lat, long]).bindPopup(resultsLat[i].name);
+  console.log("Results", data);
+  for (let i = 0; i < data.length; i++) {
+    console.log("Results Lat", data[i].latitude);
+    var lat = data[i].latitude;
+    var long = data[i].longitude;
+    var marker = L.marker([lat, long]).bindPopup(data[i].name);
     //functions for popup to disappear when user hovers in and out
-      marker.on('mouseover', function (e) {
-          this.openPopup();
-      });
-      marker.on('mouseout', function (e){
-          this.closePopup();
-      });
-      console.log(marker);
-      if (marker){
-          
-          marker.addTo(breweryMap);
-      }
+    marker.on("mouseover", function (e) {
+      this.openPopup();
+    });
+    marker.on("mouseout", function (e) {
+      this.closePopup();
+    });
+    console.log(marker);
+    if (marker) {
+      marker.addTo(breweryMap);
+    }
   }
 }
 
@@ -142,11 +140,25 @@ function chosenBrewery(event) {
 }
 
 L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
-    var breweryMap = L.mapquest.map('map', {
-    // coordinates of center of the map
-    center: [40.7608, -111.8910],
-    layers: L.mapquest.tileLayer('map'),
-    zoom: 12
-    });
+var breweryMap = L.mapquest.map("map", {
+  // coordinates of center of the map
+  center: [40.7608, -111.891],
+  layers: L.mapquest.tileLayer("map"),
+  zoom: 12,
+});
+
+// for loop to add each city btn clicked to route?
+var directions = L.mapquest.directions().route(
+  {
+    start: "900 e 900 s Salt Lake City, Ut",
+    end: "4662 s tinn Way Murray, UT 84107",
+    options: {
+      timeOverage: 25,
+      maxRoutes: 2,
+    },
+  }
+);
+directions.addTo(breweryMap);
+
 
 searchButton.onclick = formSubmitHandler;
