@@ -10,30 +10,33 @@ var formSubmitHandler = function (event) {
   var startingPoint = currentAddress.value;
   console.log("startingPoint var", startingPoint);
   // getMapQuest(startingPoint);
-  addressToLatLon(startingPoint);
+  addressToLatLon(startingPoint,true);
 };
 
 var addressToLatLon = function (startingPoint, user) {
   console.log("startingpoint", startingPoint);
   var geoCodeApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${startingPoint}`;
   if (!user) {
+    let promises =[];
     for (let i = 0; i < resultsStreet.length; i++) {
       var geoStreetApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${resultsStreet[i].street} ${resultsStreet[i].city} ,${resultsStreet[i].state}`;
-      fetch(geoStreetApi).then(function (response) {
+      promises.push(fetch(geoStreetApi).then(async function (response) {
         if (response.ok) {
-          response.json().then(function (data) {
+          await response.json().then(function (data) {
             resultsStreet[i].latitude =
               data.results[0].locations[0].latLng.lat.toString();
             resultsStreet[i].longitude =
               data.results[0].locations[0].latLng.lng.toString();
           });
         }
-      });
+      }));
     }
-    //resultsLat = resultsLat.concat(resultsStreet)
-    console.log(resultsLat.concat(resultsStreet));
-    loadBreweryButtons(resultsLat.concat(resultsStreet));
-    // not making it to else statment, maybe has something to do with funtion (startingPoint, user) above?  not logging user? since not defined anywhere else?
+    Promise.all(promises).then(function (){
+        resultsLat = resultsLat.concat(resultsStreet);
+        loadBreweryButtons(resultsLat);
+        // chosenBrewery(resultsLat);
+    })
+
   } else {
     fetch(geoCodeApi).then(function (response) {
       if (response.ok) {
@@ -95,16 +98,21 @@ var getMapQuest = function (startingPoint) {
   });
 };
 
+// we want to add data attributes with lat and long when creating these buttons to access in chosen when user clicks on button
 function loadBreweryButtons(data) {
   console.log("data is", data);
   var btnDiv = document.getElementById("btnDiv");
   // var listBreweries = JSON.parse(localStorage.getItem("brewery"));
   for (let i = 0; i < data.length; i++) {
+    console.log(data[i].latitude);
+    console.log(data[i].longitude);
     var button = document.createElement("button");
     button.innerText = data[i].name;
     button.value = data[i].name;
     button.classList.add("btn");
     button.classList.add("barbtn");
+    button.setAttribute('latitude', data[i].latitude);
+    button.setAttribute('longitude', data[i].longitude);
     button.addEventListener("click", chosenBrewery);
     btnDiv.appendChild(button);
   }
@@ -122,7 +130,6 @@ function loadBreweryButtons(data) {
     marker.on("mouseout", function (e) {
       this.closePopup();
     });
-    console.log(marker);
     if (marker) {
       marker.addTo(breweryMap);
     }
@@ -131,12 +138,18 @@ function loadBreweryButtons(data) {
 
 function chosenBrewery(event) {
   console.log(event.target.value);
+  console.log(event.target.getAttribute('latitude'));
+  console.log(event.target.getAttribute('longitude'));
+  var lat = event.target.getAttribute('latitude')
+  var lon = event.target.getAttribute('longitude')
   var name = event.target.value;
   //         getMapQuest(name);
   console.log(name);
+  console.log(resultsLat.concat(resultsStreet));
   // grabbing bar location from API
   var breweryAddress = event.target;
   console.log(breweryAddress);
+  directions(lat, lon);
 }
 
 L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
@@ -148,17 +161,18 @@ var breweryMap = L.mapquest.map("map", {
 });
 
 // for loop to add each city btn clicked to route?
-var directions = L.mapquest.directions().route(
-  {
-    start: "900 e 900 s Salt Lake City, Ut",
-    end: "4662 s tinn Way Murray, UT 84107",
-    options: {
-      timeOverage: 25,
-      maxRoutes: 2,
-    },
-  }
-);
-directions.addTo(breweryMap);
+var directions = function(lat, lon){L.mapquest.directions().route(
+    {
+        start: "900 e 900 s Salt Lake City, Ut",
+        end: "4662 s tina Way Murray, UT 84107",
+        options: {
+        timeOverage: 25,
+        maxRoutes: 2,
+        },
+    }
+    );
+}
+// directions.addTo(breweryMap);
 
 
 searchButton.onclick = formSubmitHandler;
