@@ -1,14 +1,15 @@
 var currentAddress = document.querySelector("#userAddress");
 var searchButton = document.querySelector("#search-button");
+var routeBtn = document.getElementById("route-btn");
 var breweryData = [];
 var resultsLat;
 var resultsStreet;
-var startingpoint;
+var startingPoint;
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
   console.log(event);
-  var startingPoint = currentAddress.value;
+    startingPoint = currentAddress.value;
   console.log("startingPoint var", startingPoint);
   // getMapQuest(startingPoint);
   addressToLatLon(startingPoint,true);
@@ -16,7 +17,7 @@ var formSubmitHandler = function (event) {
 };
 
 var addressToLatLon = function (startingPoint, user) {
-  console.log("startingpoint", startingPoint);
+  console.log("startingPoint", startingPoint);
   var geoCodeApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${startingPoint}`;
   if (!user) {
     let promises =[];
@@ -149,7 +150,8 @@ function chosenBrewery(event) {
   // grabbing bar location from API
   var breweryAddress = event.target;
   console.log(breweryAddress);
-  directions(latLon);
+  directions(latLon, startingPoint);
+  console.log(startingPoint);
 }
 
 L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
@@ -160,17 +162,15 @@ var breweryMap = L.mapquest.map("map", {
   zoom: 12,
 });
 
-// Require startingpoint and latLon to run directions function
-// function is asychronous need to wait till we have latLon before starting
-var directions = function(latLon){
-    if(!latLon){console.log('we did not make it')}
-    else{
-        console.log('we made it')
-        // console.log('starting point',startingPoint);
+
+var directions = routeBtn.onclick = function (latLon, startingPoint){
+    if(routeBtn.onclick){
+        console.log('click');
+        console.log('starting point',startingPoint);
         console.log('latlon', latLon);
         L.mapquest.directions().route(
         {
-            start: "4662 s tina way Murray UT, 84107",
+            start: startingPoint,
             end: latLon,
             options: {
             timeOverage: 25,
@@ -179,9 +179,28 @@ var directions = function(latLon){
         }
         );
     }
+    else{
+        console.log('straight to else')
+    };
 }
-
-
+// var directions = function(latLon, startingPoint){
+//     if(!latLon){console.log('we did not make it')}
+//     else{
+//         console.log('we made it')
+//         console.log('starting point',startingPoint);
+//         console.log('latlon', latLon);
+//         L.mapquest.directions().route(
+//         {
+//             start: startingPoint,
+//             end: latLon,
+//             options: {
+//             timeOverage: 25,
+//             maxRoutes: 2,
+//             },
+//         }
+//         );
+//     }
+// }
 // directions.addTo(breweryMap);
 
 
