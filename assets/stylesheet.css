@@ -16,6 +16,15 @@ li {
   font-size: 20px;
 }
 
+.barbtn:focus {
+  background-color: #F79256;
+}
+
+.barbtn:active {
+  background-color: #F79256;
+}
+
+
 .hero {
   background-color: #1D4E89;
 }

@@ -1,14 +1,16 @@
 var currentAddress = document.querySelector("#userAddress");
 var searchButton = document.querySelector("#search-button");
+var routeBtn = document.getElementById("route-btn");
 var breweryData = [];
 var resultsLat;
 var resultsStreet;
-var startingpoint;
+var startingPoint;
+var brewLatLonArray = [];
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
   console.log(event);
-  var startingPoint = currentAddress.value;
+    startingPoint = currentAddress.value;
   console.log("startingPoint var", startingPoint);
   // getMapQuest(startingPoint);
   addressToLatLon(startingPoint,true);
@@ -16,7 +18,7 @@ var formSubmitHandler = function (event) {
 };
 
 var addressToLatLon = function (startingPoint, user) {
-  console.log("startingpoint", startingPoint);
+  console.log("startingPoint", startingPoint);
   var geoCodeApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${startingPoint}`;
   if (!user) {
     let promises =[];
@@ -88,23 +90,10 @@ var getBreweries = function (breweryName) {
 };
 getBreweries();
 
-var toAddress = "40.6987539, -111.8503182";
-var getMapQuest = function (startingPoint) {
-  var mapQuestApi = `http://cors-anywhere.herokuapp.com/https://open.mapquestapi.com/guidance/v2/route?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&from=${startingPoint}&to=${toAddress}`;
-  fetch(mapQuestApi).then(function (response) {
-    if (response.ok) {
-      response.json().then(function (data) {
-        console.log(data);
-      });
-    }
-  });
-};
-
-// we want to add data attributes with lat and long when creating these buttons to access in chosen when user clicks on button
 function loadBreweryButtons(data) {
   console.log("data is", data);
   var btnDiv = document.getElementById("btnDiv");
-  // var listBreweries = JSON.parse(localStorage.getItem("brewery"));
+  
   for (let i = 0; i < data.length; i++) {
     var button = document.createElement("button");
     button.innerText = data[i].name;
@@ -149,7 +138,10 @@ function chosenBrewery(event) {
   // grabbing bar location from API
   var breweryAddress = event.target;
   console.log(breweryAddress);
-  directions(latLon);
+    brewLatLonArray.push(latLon);
+    console.log(brewLatLonArray);
+    //   directions(latLon, startingPoint);
+  console.log(startingPoint);
 }
 
 L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
@@ -160,29 +152,18 @@ var breweryMap = L.mapquest.map("map", {
   zoom: 12,
 });
 
-// Require startingpoint and latLon to run directions function
-// function is asychronous need to wait till we have latLon before starting
-var directions = function(latLon){
-    if(!latLon){console.log('we did not make it')}
-    else{
-        console.log('we made it')
-        // console.log('starting point',startingPoint);
-        console.log('latlon', latLon);
-        L.mapquest.directions().route(
-        {
-            start: "4662 s tina way Murray UT, 84107",
-            end: latLon,
-            options: {
-            timeOverage: 25,
-            maxRoutes: 2,
-            },
-        }
-        );
-    }
-}
+routeBtn.addEventListener('click', function (latLon){
 
-
-// directions.addTo(breweryMap);
-
-
+    console.log('click');
+    console.log('starting point', startingPoint);
+    console.log('latlon', brewLatLonArray);
+    L.mapquest.directions().route(
+    {
+        start: startingPoint,
+        waypoints : brewLatLonArray,
+        // end: startingPoint
+        },
+    );
+    
+})
 searchButton.onclick = formSubmitHandler;
