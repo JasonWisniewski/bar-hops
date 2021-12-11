@@ -3,6 +3,7 @@ var searchButton = document.querySelector("#search-button");
 var breweryData = [];
 var resultsLat;
 var resultsStreet;
+var startingpoint;
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -11,6 +12,7 @@ var formSubmitHandler = function (event) {
   console.log("startingPoint var", startingPoint);
   // getMapQuest(startingPoint);
   addressToLatLon(startingPoint,true);
+//   directions(latLon, startingPoint);
 };
 
 var addressToLatLon = function (startingPoint, user) {
@@ -104,8 +106,6 @@ function loadBreweryButtons(data) {
   var btnDiv = document.getElementById("btnDiv");
   // var listBreweries = JSON.parse(localStorage.getItem("brewery"));
   for (let i = 0; i < data.length; i++) {
-    console.log(data[i].latitude);
-    console.log(data[i].longitude);
     var button = document.createElement("button");
     button.innerText = data[i].name;
     button.value = data[i].name;
@@ -119,7 +119,6 @@ function loadBreweryButtons(data) {
 
   console.log("Results", data);
   for (let i = 0; i < data.length; i++) {
-    console.log("Results Lat", data[i].latitude);
     var lat = data[i].latitude;
     var long = data[i].longitude;
     var marker = L.marker([lat, long]).bindPopup(data[i].name);
@@ -140,8 +139,9 @@ function chosenBrewery(event) {
   console.log(event.target.value);
   console.log(event.target.getAttribute('latitude'));
   console.log(event.target.getAttribute('longitude'));
-  var lat = event.target.getAttribute('latitude')
-  var lon = event.target.getAttribute('longitude')
+  var lat = event.target.getAttribute('latitude');
+  var lon = event.target.getAttribute('longitude');
+  var latLon = `${lat}, ${lon}`;
   var name = event.target.value;
   //         getMapQuest(name);
   console.log(name);
@@ -149,7 +149,7 @@ function chosenBrewery(event) {
   // grabbing bar location from API
   var breweryAddress = event.target;
   console.log(breweryAddress);
-  directions(lat, lon);
+  directions(latLon);
 }
 
 L.mapquest.key = "rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v";
@@ -160,18 +160,28 @@ var breweryMap = L.mapquest.map("map", {
   zoom: 12,
 });
 
-// for loop to add each city btn clicked to route?
-var directions = function(lat, lon){L.mapquest.directions().route(
-    {
-        start: "900 e 900 s Salt Lake City, Ut",
-        end: "4662 s tina Way Murray, UT 84107",
-        options: {
-        timeOverage: 25,
-        maxRoutes: 2,
-        },
+// Require startingpoint and latLon to run directions function
+// function is asychronous need to wait till we have latLon before starting
+var directions = function(latLon){
+    if(!latLon){console.log('we did not make it')}
+    else{
+        console.log('we made it')
+        // console.log('starting point',startingPoint);
+        console.log('latlon', latLon);
+        L.mapquest.directions().route(
+        {
+            start: "4662 s tina way Murray UT, 84107",
+            end: latLon,
+            options: {
+            timeOverage: 25,
+            maxRoutes: 2,
+            },
+        }
+        );
     }
-    );
 }
+
+
 // directions.addTo(breweryMap);
 
 
