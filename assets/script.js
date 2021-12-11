@@ -5,7 +5,7 @@ var breweryData = [];
 var resultsLat;
 var resultsStreet;
 var startingPoint;
-var array = [];
+var brewLatLonArray = [];
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -90,23 +90,10 @@ var getBreweries = function (breweryName) {
 };
 getBreweries();
 
-var toAddress = "40.6987539, -111.8503182";
-var getMapQuest = function (startingPoint) {
-  var mapQuestApi = `http://cors-anywhere.herokuapp.com/https://open.mapquestapi.com/guidance/v2/route?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&from=${startingPoint}&to=${toAddress}`;
-  fetch(mapQuestApi).then(function (response) {
-    if (response.ok) {
-      response.json().then(function (data) {
-        console.log(data);
-      });
-    }
-  });
-};
-
-// we want to add data attributes with lat and long when creating these buttons to access in chosen when user clicks on button
 function loadBreweryButtons(data) {
   console.log("data is", data);
   var btnDiv = document.getElementById("btnDiv");
-  // var listBreweries = JSON.parse(localStorage.getItem("brewery"));
+  
   for (let i = 0; i < data.length; i++) {
     var button = document.createElement("button");
     button.innerText = data[i].name;
@@ -151,8 +138,8 @@ function chosenBrewery(event) {
   // grabbing bar location from API
   var breweryAddress = event.target;
   console.log(breweryAddress);
-    array.push(latLon);
-    console.log(array);
+    brewLatLonArray.push(latLon);
+    console.log(brewLatLonArray);
     //   directions(latLon, startingPoint);
   console.log(startingPoint);
 }
@@ -169,13 +156,13 @@ routeBtn.addEventListener('click', function (latLon){
 
     console.log('click');
     console.log('starting point', startingPoint);
-    console.log('latlon', array);
+    console.log('latlon', brewLatLonArray);
     L.mapquest.directions().route(
     {
         start: startingPoint,
-        waypoints : array
+        waypoints : brewLatLonArray,
+        // end: startingPoint
         },
-    
     );
     
 })
