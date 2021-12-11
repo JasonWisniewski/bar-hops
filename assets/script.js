@@ -5,6 +5,7 @@ var breweryData = [];
 var resultsLat;
 var resultsStreet;
 var startingPoint;
+var array = [];
 
 var formSubmitHandler = function (event) {
   event.preventDefault();
@@ -150,7 +151,9 @@ function chosenBrewery(event) {
   // grabbing bar location from API
   var breweryAddress = event.target;
   console.log(breweryAddress);
-  directions(latLon, startingPoint);
+    array.push(latLon);
+    console.log(array);
+    //   directions(latLon, startingPoint);
   console.log(startingPoint);
 }
 
@@ -162,46 +165,18 @@ var breweryMap = L.mapquest.map("map", {
   zoom: 12,
 });
 
+routeBtn.addEventListener('click', function (latLon){
 
-var directions = routeBtn.onclick = function (latLon, startingPoint){
-    if(routeBtn.onclick){
-        console.log('click');
-        console.log('starting point',startingPoint);
-        console.log('latlon', latLon);
-        L.mapquest.directions().route(
-        {
-            start: startingPoint,
-            end: latLon,
-            options: {
-            timeOverage: 25,
-            maxRoutes: 2,
-            },
-        }
-        );
-    }
-    else{
-        console.log('straight to else')
-    };
-}
-// var directions = function(latLon, startingPoint){
-//     if(!latLon){console.log('we did not make it')}
-//     else{
-//         console.log('we made it')
-//         console.log('starting point',startingPoint);
-//         console.log('latlon', latLon);
-//         L.mapquest.directions().route(
-//         {
-//             start: startingPoint,
-//             end: latLon,
-//             options: {
-//             timeOverage: 25,
-//             maxRoutes: 2,
-//             },
-//         }
-//         );
-//     }
-// }
-// directions.addTo(breweryMap);
-
-
+    console.log('click');
+    console.log('starting point', startingPoint);
+    console.log('latlon', array);
+    L.mapquest.directions().route(
+    {
+        start: startingPoint,
+        waypoints : array
+        },
+    
+    );
+    
+})
 searchButton.onclick = formSubmitHandler;
