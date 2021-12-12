@@ -1,4 +1,4 @@
-# <Brew Hops!>
+# Brew Hops!
 ## Description
 Brew Hops! Is an interactive map and directory created to help you find the best route between breweries in Salt Lake City. Whether you’re a visitor or a local, this app will help you sample Salt Lake’s finest craft beer selection while keeping you safe and speedy.
 
@@ -11,9 +11,7 @@ We are proud of the way it looks and functions. It’s a fun app!
 
 ## Usage
 When visiting the Brew Hops! Website the user is presented with a list of the breweries on the left along with a marker for each brewery on the map located on the right of the page. The user inputs their current address in the top input bar and then selects the breweries they would like to visit. The map then populates a route beginning at the user’s starting point. 
-    ```md
     ![alt text](assets/images/brewhops!.jpg)
-    ```
 ## Credits
 Jason Wisniewski - https://github.com/JasonWisniewski
 Sabriel Gee - https://github.com/sabrielg
