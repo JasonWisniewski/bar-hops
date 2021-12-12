@@ -28,11 +28,11 @@ var formSubmitHandler = function (event) {
 
 var addressToLatLon = function (startingPoint, user) {
   console.log("startingPoint", startingPoint);
-  var geoCodeApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${startingPoint}`;
+  var geoCodeApi = `https://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${startingPoint}`;
   if (!user) {
     let promises =[];
     for (let i = 0; i < resultsStreet.length; i++) {
-      var geoStreetApi = `http://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${resultsStreet[i].street} ${resultsStreet[i].city} ,${resultsStreet[i].state}`;
+      var geoStreetApi = `https://www.mapquestapi.com/geocoding/v1/address?key=rpAvJfYmOqPswEf5T36Wqk8vDHDZDa4v&location=${resultsStreet[i].street} ${resultsStreet[i].city} ,${resultsStreet[i].state}`;
       promises.push(fetch(geoStreetApi).then(async function (response) {
         if (response.ok) {
           await response.json().then(function (data) {
