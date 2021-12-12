@@ -11,6 +11,15 @@ var formSubmitHandler = function (event) {
   event.preventDefault();
   console.log(event);
     startingPoint = currentAddress.value;
+    if (startingPoint.trim()=="") {
+      console.log("startingPoint")
+      var addressDiv=document.getElementById("address-verify");
+      addressDiv.innerHTML= `<div class="alert alert-dark alert-dismissible fade show" role="alert">
+      <strong>Holy guacamole!</strong> We need a starting address from you!
+      <button type="button" class="btn-X" data-bs-dismiss="alert" aria-label="Close">X</button>
+    </div>`;
+      return;
+    }
   console.log("startingPoint var", startingPoint);
   // getMapQuest(startingPoint);
   addressToLatLon(startingPoint,true);
@@ -125,6 +134,8 @@ function loadBreweryButtons(data) {
 }
 
 function chosenBrewery(event) {
+  event.target.className +=" barbtn-selected";
+  console.log(event)
   console.log(event.target.value);
   console.log(event.target.getAttribute('latitude'));
   console.log(event.target.getAttribute('longitude'));
@@ -153,7 +164,11 @@ var breweryMap = L.mapquest.map("map", {
 });
 
 routeBtn.addEventListener('click', function (latLon){
-
+  var breweriesSelected = document.getElementsByClassName("barbtn");
+  console.log(breweriesSelected)
+  for (let i = 0; i < breweriesSelected.length; i++) {
+    breweriesSelected[i].classList.remove("barbtn-selected")
+  }
     console.log('click');
     console.log('starting point', startingPoint);
     console.log('latlon', brewLatLonArray);
