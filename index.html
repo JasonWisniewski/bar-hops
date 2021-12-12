@@ -36,9 +36,10 @@
                   <button class="input-group-text" id="search-button">Search</button>
                 </div>
             </div>
+            <div id="address-verify" class="col d-flex text-center">
         </div>
     </header>
-    <div id="address-verify">
+    <!-- <div id="address-verify" class="col d-flex justify-content-center"> -->
 
     </div>
     <div class= "row min-vh-100 no-gutters">
@@ -51,6 +52,9 @@
                     <!-- <br>
                     Breweries in Salt Lake -->
                 </h3>
+                <!-- <div style="display: flex;">
+                    <button id="route-btn" class="route-me-btn">Route Me!</button>
+                </div> -->
                 <li class="m-2">
                
                 </li>
@@ -67,18 +71,19 @@
         <!-- right side map area -->
 
 
-        <div class="map col container d-flex align-items-center justify-content-center m-0">
+        <!-- <div class="map col container d-flex align-items-center justify-content-center m-0"> -->
+            <article class="map col container d-flex align-items-start flex-column justify-content-center">
+
+
+                <button id="route-btn" class="route-me-btn text-center p-3">Route Me!</button>
             <!-- card posistioning -->
-            <div style="display: flex;">
-                <button id="route-btn">Route Me!</button>
-            </div>
             <br>
-            <div class="card" style="width: 90%; height:60%">
-                <div id="map" class="card-body ">
+                <div class="card" style="width: 95%; height:60%">
+                    <div id="map" class="card-body ">
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
+            </article>
+
 </div>
     <footer class="footer">
         <h2 class="app-title text-center  p-4">

@@ -14,7 +14,7 @@ var formSubmitHandler = function (event) {
     if (startingPoint.trim()=="") {
       console.log("startingPoint")
       var addressDiv=document.getElementById("address-verify");
-      addressDiv.innerHTML= `<div class="alert alert-dark alert-dismissible fade show" role="alert">
+      addressDiv.innerHTML= `<div class="alert alert-dismissible fade show" role="alert">
       <strong>Holy guacamole!</strong> We need a starting address from you!
       <button type="button" class="btn-X" data-bs-dismiss="alert" aria-label="Close">X</button>
     </div>`;
@@ -176,7 +176,7 @@ routeBtn.addEventListener('click', function (latLon){
     {
         start: startingPoint,
         waypoints : brewLatLonArray,
-        // end: startingPoint
+        end: startingPoint
         },
     );
     
